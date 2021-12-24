@@ -4,8 +4,11 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
-    "start": "tsc && node dist/app.js",
-    "dev-notes": "ts-node-dev --respawn notes-app/app.ts",
+    "start:notes": "tsc && node dist/notes-app/app.js",
+    "start:weather": "tsc && node dist/weather-app/app.js",
+    "debug:notes": "tsc && node inspect dist/notes-app/app.js",
+    "debug:weather": "tsc && node inspect dist/weather-app/app.js",
+    "dev:notes": "ts-node-dev --respawn notes-app/app.ts",
     "build": "tsc"
   },
   "keywords": [],
@@ -20,9 +23,12 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "@types/request": "^2.48.7",
     "@types/yargs": "^17.0.5",
     "chalk": "^4.1.2",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "request": "^2.88.2",
     "validator": "^13.7.0",
     "yargs": "^17.2.1"
   }

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as util from './util';
 
-const NOTES_FILE_NAME = 'notes.json';
+const NOTES_FILE_NAME = './notes-app/notes.json';
 interface Note {
   title: string;
   body: string;
