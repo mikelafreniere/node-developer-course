@@ -1,8 +1,9 @@
 import * as request from 'request';
 
 export interface Geocode {
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
+  placeName: string;
 }
 
 export interface Weather {
@@ -27,7 +28,6 @@ export function getCurrentWeather(
       return;
     } else if (!!response.body?.error) {
       callback(new Error(`Unable to find '${query}'. Please try another search.`), undefined);
-      //   console.log(response.body.error.info);
       return;
     }
 
@@ -58,8 +58,9 @@ export function geocode(
 
     const feature = response.body.features[0];
     callback(undefined, {
-      latitude: feature?.center[1] || '',
-      longitude: feature?.center[0] || '',
+      latitude: feature.center[1] || '',
+      longitude: feature.center[0] || '',
+      placeName: feature.place_name,
     } as Geocode);
   });
 }
