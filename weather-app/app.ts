@@ -1,8 +1,10 @@
 import * as util from './util';
 import * as yargs from 'yargs';
 import * as dotenv from 'dotenv';
+import { Geocode, Weather } from './util';
+
 dotenv.config();
-yargs.version('1.1.0');
+yargs.version('1.0.0');
 
 yargs.command({
   command: 'get',
@@ -15,22 +17,26 @@ yargs.command({
     },
   },
   handler(argv: { location: string }): void {
-    util.geocode(argv.location, (error, geocodeData) => {
+    if (!argv.location) {
+      console.log('Please specify a location.');
+      return;
+    }
+
+    util.geocode(argv.location, (error, geocodeData: Geocode) => {
       if (error) {
         console.log(error.message);
         return;
       }
 
-      util.getCurrentWeather(geocodeData!.latitude, geocodeData!.longitude, (error, data) => {
+      const { latitude, longitude, placeName } = geocodeData;
+      util.getCurrentWeather(latitude, longitude, (error, data: Weather) => {
         if (error) {
           console.log(error.message);
           return;
         }
-        console.log(
-          `The temperature in ${geocodeData!.placeName} is ${data!.temperature} degrees. It feels like ${
-            data!.feelsLike
-          } degrees.`
-        );
+
+        const { temperature, feelslike } = data;
+        console.log(`The temperature in ${placeName} is ${temperature} degrees. It feels like ${feelslike} degrees.`);
       });
     });
   },
