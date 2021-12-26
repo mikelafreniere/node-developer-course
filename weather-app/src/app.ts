@@ -3,6 +3,7 @@ import * as util from './util';
 import * as yargs from 'yargs';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
+import * as hbs from 'hbs';
 import { Geocode, Weather } from './util';
 
 dotenv.config();
@@ -12,7 +13,8 @@ const initExpress = () => {
   // set path to serve static files
   app.use(express.static(path.join(__dirname, '../public')));
   // set location for frontend templates
-  app.set('views', path.join(__dirname, '../views'));
+  app.set('views', path.join(__dirname, '../templates/views'));
+  hbs.registerPartials(path.join(__dirname, '../templates/partials'));
   app.set('view engine', 'hbs');
 
   app.listen(3000, () => {
@@ -21,15 +23,24 @@ const initExpress = () => {
 
   // routes
   app.get('', (req, res) => {
-    res.render('index', { title: 'Weather' });
+    res.render('index', {
+      title: 'Weather',
+      name: 'Mike LaFreniere',
+    });
   });
 
   app.get('/about', (req, res) => {
-    res.render('about', { title: 'About' });
+    res.render('about', {
+      title: 'About',
+      name: 'Mike LaFreniere',
+    });
   });
 
   app.get('/help', (req, res) => {
-    res.render('help', { title: 'Help' });
+    res.render('help', {
+      title: 'Help',
+      name: 'Mike LaFreniere',
+    });
   });
 
   app.get('/weather', (req, res) => {
