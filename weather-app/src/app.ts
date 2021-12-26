@@ -1,10 +1,23 @@
+import * as path from 'path';
 import * as util from './util';
 import * as yargs from 'yargs';
 import * as dotenv from 'dotenv';
+import * as express from 'express';
 import { Geocode, Weather } from './util';
 
 dotenv.config();
 yargs.version('1.0.0');
+
+const app = express();
+app.use(express.static(path.join(__dirname, '../public')));
+
+app.listen(3000, () => {
+  console.log('Server is running.');
+});
+
+app.get('/weather', (req, res) => {
+  res.send({ forecast: 'forecast' });
+});
 
 yargs.command({
   command: 'get',
