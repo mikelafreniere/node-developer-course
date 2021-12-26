@@ -44,7 +44,34 @@ const initExpress = () => {
   });
 
   app.get('/weather', (req, res) => {
-    res.send({ forecast: 'forecast' });
+    if (!req.query.address) {
+      res.send({ error: 'You must provide an address.' });
+      return;
+    }
+
+    const address = req.query.address as string;
+    util.geocode(address, (error, geocodeData: Geocode) => {
+      if (error) {
+        res.send({ error: error.message });
+        return;
+      }
+
+      const { latitude, longitude, placeName } = geocodeData;
+      util.getCurrentWeather(latitude, longitude, (error, data: Weather) => {
+        if (error) {
+          res.send({ error: error.message });
+          return;
+        }
+
+        const { temperature, feelslike, description } = data;
+        res.send({
+          address: placeName,
+          temperature,
+          feelslike,
+          weatherDescription: description,
+        });
+      });
+    });
   });
 
   // 404 routes

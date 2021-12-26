@@ -9,6 +9,11 @@ export interface Geocode {
 export interface Weather {
   temperature: number;
   feelslike: number;
+  description: string;
+}
+
+export interface Forecast extends Weather {
+  placeName: string;
 }
 
 const WEATHERSTACK_URL = 'http://api.weatherstack.com';
@@ -31,10 +36,11 @@ export function getCurrentWeather(
       return;
     }
 
-    const { temperature, feelslike } = response.body?.current;
+    const { temperature, feelslike, weather_descriptions } = response.body?.current;
     callback(undefined, {
       temperature,
       feelslike,
+      description: weather_descriptions?.length > 0 ? weather_descriptions[0] : '',
     });
   });
 }
@@ -61,3 +67,31 @@ export function geocode(address: string, callback: (error: Error | undefined, da
     } as Geocode);
   });
 }
+
+// TODO: learn about promises to create reusable function.
+// export function getForecast(address: string): Forecast {
+//   if (address) {
+//     console.log('Please specify a location.');
+//     throw new Error();
+//   }
+
+//   geocode(address, (error, geocodeData: Geocode) => {
+//     if (error) {
+//       throw new Error(error.message);
+//     }
+
+//     const { latitude, longitude, placeName } = geocodeData;
+//     getCurrentWeather(latitude, longitude, (error, data: Weather) => {
+//       if (error) {
+//         throw new Error(error.message);
+//       }
+
+//       const { temperature, feelslike } = data;
+//       return {
+//         placeName,
+//         temperature,
+//         feelslike,
+//       } as Forecast;
+//     });
+//   });
+// }
