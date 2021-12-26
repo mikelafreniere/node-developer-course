@@ -46,6 +46,21 @@ const initExpress = () => {
   app.get('/weather', (req, res) => {
     res.send({ forecast: 'forecast' });
   });
+
+  // 404 routes
+  app.get('/help/*', (req, res) => {
+    res.render('not-found', {
+      title: 'Help Article Not Found',
+      errorMessage: 'Sorry mate, try a new route',
+    });
+  });
+
+  app.get('*', (req, res) => {
+    res.render('not-found', {
+      title: 'Page Not Found',
+      errorMessage: 'Sorry mate, try a new route',
+    });
+  });
 };
 
 const initYargs = () => {
