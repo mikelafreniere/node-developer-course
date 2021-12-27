@@ -14,8 +14,9 @@ const initExpress = () => {
   hbs.registerPartials(path.join(__dirname, '../templates/partials'));
   app.set('view engine', 'hbs');
 
-  app.listen(3000, () => {
-    console.log('Server is running.');
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}.`);
   });
 
   // routes

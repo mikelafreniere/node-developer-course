@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
+    "start": "tsc && node dist/weather-app/src/app.js",
     "start:notes": "tsc && node dist/notes-app/app.js",
     "start:weather": "tsc && node dist/weather-app/src/app.js",
     "debug:notes": "tsc && node inspect dist/notes-app/app.js",
